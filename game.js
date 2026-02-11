@@ -3,6 +3,9 @@ const { Engine, Render, Runner, Bodies, Composite, Mouse, MouseConstraint } = Ma
 const engine = Engine.create()
 const world = engine.world
 
+// Expose for testing
+window.game = { engine, world, Composite }
+
 const render = Render.create({
   element: document.getElementById('game-container'),
   engine: engine,
