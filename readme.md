@@ -9,6 +9,8 @@ A simple interactive web-based marble run game.
 
 [Demo](https://jncraton.github.io/webmarble/)
 
+![Gameplay Demo](game.svg)
+
 ## Usage
 
 Select a tool from the palette and click on the canvas to place parts or drop marbles.
