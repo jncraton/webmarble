@@ -10,15 +10,17 @@ const render = Render.create({
     width: window.innerWidth,
     height: window.innerHeight,
     wireframes: false,
-    background: '#f0f0f0'
-  }
+    background: '#f0f0f0',
+  },
 })
 
 Render.run(render)
 const runner = Runner.create()
 Runner.run(runner, engine)
 
-const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 25, window.innerWidth, 50, { isStatic: true })
+const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 25, window.innerWidth, 50, {
+  isStatic: true,
+})
 Composite.add(world, ground)
 
 let currentTool = 'marble'
@@ -51,42 +53,42 @@ const mouseConstraint = MouseConstraint.create(engine, {
   constraint: {
     stiffness: 0.2,
     render: {
-      visible: false
-    }
-  }
+      visible: false,
+    },
+  },
 })
 
 Composite.add(world, mouseConstraint)
 
-render.canvas.addEventListener('mousedown', (event) => {
+render.canvas.addEventListener('mousedown', event => {
   if (mouseConstraint.body) return
 
   const position = mouse.position
-  
+
   if (currentTool === 'marble') {
     const marble = Bodies.circle(position.x, position.y, 10, {
       restitution: 0.6,
       friction: 0.001,
-      render: { fillStyle: '#e74c3c' }
+      render: { fillStyle: '#e74c3c' },
     })
     Composite.add(world, marble)
   } else if (currentTool === 'ramp') {
     const ramp = Bodies.rectangle(position.x, position.y, 150, 20, {
       isStatic: true,
       angle: Math.PI / 6,
-      render: { fillStyle: '#34495e' }
+      render: { fillStyle: '#34495e' },
     })
     Composite.add(world, ramp)
   } else if (currentTool === 'peg') {
     const peg = Bodies.circle(position.x, position.y, 10, {
       isStatic: true,
-      render: { fillStyle: '#34495e' }
+      render: { fillStyle: '#34495e' },
     })
     Composite.add(world, peg)
   } else if (currentTool === 'wall') {
     const wall = Bodies.rectangle(position.x, position.y, 20, 100, {
       isStatic: true,
-      render: { fillStyle: '#34495e' }
+      render: { fillStyle: '#34495e' },
     })
     Composite.add(world, wall)
   }

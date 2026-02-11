@@ -1,23 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marble Run Sandbox</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div id="ui">
-        <div id="palette">
-            <button class="tool" data-tool="marble" title="Drop Marble">●</button>
-            <button class="tool" data-tool="ramp" title="Place Ramp">/</button>
-            <button class="tool" data-tool="peg" title="Place Peg">·</button>
-            <button class="tool" data-tool="wall" title="Place Wall">|</button>
-            <button id="clear" title="Clear Sandbox">🗑</button>
-        </div>
+      <div id="palette">
+        <button class="tool" data-tool="marble" title="Drop Marble">●</button>
+        <button class="tool" data-tool="ramp" title="Place Ramp">/</button>
+        <button class="tool" data-tool="peg" title="Place Peg">·</button>
+        <button class="tool" data-tool="wall" title="Place Wall">|</button>
+        <button id="clear" title="Clear Sandbox">🗑</button>
+      </div>
     </div>
     <div id="game-container"></div>
     <script src="matter.min.js"></script>
     <script src="game.js"></script>
-</body>
+  </body>
 </html>
