@@ -63,10 +63,12 @@ const mouseConstraint = MouseConstraint.create(engine, {
 
 Composite.add(world, mouseConstraint)
 
+let startPoint = null
+
 render.canvas.addEventListener('mousedown', event => {
   if (mouseConstraint.body) return
 
-  const position = mouse.position
+  const position = { ...mouse.position }
 
   if (currentTool === 'marble') {
     const marble = Bodies.circle(position.x, position.y, 10, {
@@ -75,25 +77,28 @@ render.canvas.addEventListener('mousedown', event => {
       render: { fillStyle: '#e74c3c' },
     })
     Composite.add(world, marble)
-  } else if (currentTool === 'ramp') {
-    const ramp = Bodies.rectangle(position.x, position.y, 150, 20, {
-      isStatic: true,
-      angle: Math.PI / 6,
-      render: { fillStyle: '#34495e' },
-    })
-    Composite.add(world, ramp)
-  } else if (currentTool === 'peg') {
-    const peg = Bodies.circle(position.x, position.y, 10, {
-      isStatic: true,
-      render: { fillStyle: '#34495e' },
-    })
-    Composite.add(world, peg)
-  } else if (currentTool === 'wall') {
-    const wall = Bodies.rectangle(position.x, position.y, 20, 100, {
-      isStatic: true,
-      render: { fillStyle: '#34495e' },
-    })
-    Composite.add(world, wall)
+  } else if (currentTool === 'line') {
+    startPoint = position
+  }
+})
+
+render.canvas.addEventListener('mouseup', event => {
+  if (currentTool === 'line' && startPoint) {
+    const endPoint = mouse.position
+    const dx = endPoint.x - startPoint.x
+    const dy = endPoint.y - startPoint.y
+    const distance = Math.sqrt(dx * dx + dy * dy)
+    const angle = Math.atan2(dy, dx)
+
+    if (distance > 5) {
+      const line = Bodies.rectangle(startPoint.x + dx / 2, startPoint.y + dy / 2, distance, 5, {
+        isStatic: true,
+        angle: angle,
+        render: { fillStyle: '#34495e' },
+      })
+      Composite.add(world, line)
+    }
+    startPoint = null
   }
 })
 

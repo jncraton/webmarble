@@ -14,18 +14,20 @@ def test_page_title(root: Page):
 
 def test_palette_exists(root: Page):
     expect(root.locator("#palette")).to_be_visible()
-    expect(root.locator(".tool")).to_have_count(4)
+    expect(root.locator(".tool")).to_have_count(2)
 
 def test_placement_and_movement(root: Page):
-    # Select ramp tool and place it
-    root.click('button[data-tool="ramp"]')
-    root.mouse.click(400, 300)
+    # Select line tool and draw a ramp
+    root.click('button[data-tool="line"]')
+    root.mouse.move(300, 300)
+    root.mouse.down()
+    root.mouse.move(500, 400)
+    root.mouse.up()
     
-    # Check body count (ground + ramp + mouseConstraint)
-    # Matter-js creates a constraint body for the MouseConstraint
+    # Check body count (ground + line + mouseConstraint)
     initial_bodies = root.evaluate('window.game.Composite.allBodies(window.game.world).length')
     
-    # Select marble tool and drop it above the ramp
+    # Select marble tool and drop it above the line
     root.click('button[data-tool="marble"]')
     root.mouse.click(400, 100)
     
