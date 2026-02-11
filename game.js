@@ -28,7 +28,71 @@ Composite.add(world, ground)
 
 const marbles = []
 const fountains = []
+const lines = []
 const MAX_MARBLES = 256
+
+function saveLayout() {
+  const data = {
+    fountains: fountains.map(f => ({ x: f.position.x, y: f.position.y })),
+    lines: lines.map(l => ({
+      x: l.position.x,
+      y: l.position.y,
+      w: l.bounds.max.x - l.bounds.min.x,
+      h: l.bounds.max.y - l.bounds.min.y,
+      a: l.angle,
+      dist: l.label === 'line' ? l.userData.dist : null,
+    })),
+  }
+  // Simplified line storage
+  const layout = {
+    f: fountains.map(f => [Math.round(f.position.x), Math.round(f.position.y)]),
+    l: lines.map(l => [
+      Math.round(l.userData.start.x),
+      Math.round(l.userData.start.y),
+      Math.round(l.userData.end.x),
+      Math.round(l.userData.end.y),
+    ]),
+  }
+  location.hash = btoa(JSON.stringify(layout))
+}
+
+function loadLayout() {
+  if (!location.hash) return
+  try {
+    const layout = JSON.parse(atob(location.hash.substring(1)))
+    layout.f.forEach(pos => addFountain(pos[0], pos[1]))
+    layout.l.forEach(pts => addLine(pts[0], pts[1], pts[2], pts[3]))
+  } catch (e) {
+    console.error('Failed to load layout', e)
+  }
+}
+
+function addFountain(x, y) {
+  const fountain = Bodies.rectangle(x, y, 30, 30, {
+    isStatic: true,
+    isSensor: true,
+    render: { fillStyle: '#3498db' },
+  })
+  fountain.lastSpawn = 0
+  fountains.push(fountain)
+  Composite.add(world, fountain)
+}
+
+function addLine(x1, y1, x2, y2) {
+  const dx = x2 - x1
+  const dy = y2 - y1
+  const distance = Math.sqrt(dx * dx + dy * dy)
+  const angle = Math.atan2(dy, dx)
+
+  const line = Bodies.rectangle(x1 + dx / 2, y1 + dy / 2, distance, 5, {
+    isStatic: true,
+    angle: angle,
+    render: { fillStyle: '#34495e' },
+  })
+  line.userData = { start: { x: x1, y: y1 }, end: { x: x2, y: y2 } }
+  lines.push(line)
+  Composite.add(world, line)
+}
 
 function createMarble(x, y) {
   const marble = Bodies.circle(x, y, 10, {
@@ -87,6 +151,8 @@ document.getElementById('clear').addEventListener('click', () => {
   })
   marbles.length = 0
   fountains.length = 0
+  lines.length = 0
+  saveLayout()
 })
 
 const mouse = Mouse.create(render.canvas)
@@ -129,14 +195,8 @@ canvas.addEventListener('mousedown', event => {
   } else if (currentTool === 'line') {
     startPoint = position
   } else if (currentTool === 'fountain') {
-    const fountain = Bodies.rectangle(position.x, position.y, 30, 30, {
-      isStatic: true,
-      isSensor: true,
-      render: { fillStyle: '#3498db' },
-    })
-    fountain.lastSpawn = 0
-    fountains.push(fountain)
-    Composite.add(world, fountain)
+    addFountain(position.x, position.y)
+    saveLayout()
   }
 })
 
@@ -146,19 +206,16 @@ render.canvas.addEventListener('mouseup', event => {
     const dx = endPoint.x - startPoint.x
     const dy = endPoint.y - startPoint.y
     const distance = Math.sqrt(dx * dx + dy * dy)
-    const angle = Math.atan2(dy, dx)
 
     if (distance > 5) {
-      const line = Bodies.rectangle(startPoint.x + dx / 2, startPoint.y + dy / 2, distance, 5, {
-        isStatic: true,
-        angle: angle,
-        render: { fillStyle: '#34495e' },
-      })
-      Composite.add(world, line)
+      addLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+      saveLayout()
     }
     startPoint = null
   }
 })
+
+loadLayout()
 
 window.addEventListener('resize', () => {
   render.canvas.width = window.innerWidth
