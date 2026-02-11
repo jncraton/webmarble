@@ -9,7 +9,7 @@ format:
 matter.min.js:
 	wget -O matter.min.js https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js
 
-test:
+test: matter.min.js
 	uv run --with pytest-playwright==0.7.2 python -m playwright install chromium firefox
 	uv run --with pytest-playwright==0.7.2 python -m pytest --browser chromium --browser firefox
 
