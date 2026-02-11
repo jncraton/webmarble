@@ -14,7 +14,7 @@ def test_page_title(root: Page):
 
 def test_palette_exists(root: Page):
     expect(root.locator("#palette")).to_be_visible()
-    expect(root.locator(".tool")).to_have_count(2)
+    expect(root.locator(".tool")).to_have_count(3)
 
 def test_placement_and_movement(root: Page):
     # Select line tool and draw a ramp
