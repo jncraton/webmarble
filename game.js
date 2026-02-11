@@ -36,10 +36,10 @@ function createMarble(x, y) {
     friction: 0.001,
     render: { fillStyle: '#e74c3c' },
   })
-  
+
   marbles.push(marble)
   Composite.add(world, marble)
-  
+
   if (marbles.length > MAX_MARBLES) {
     const oldest = marbles.shift()
     Composite.remove(world, oldest)
