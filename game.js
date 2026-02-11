@@ -63,9 +63,24 @@ const mouseConstraint = MouseConstraint.create(engine, {
 
 Composite.add(world, mouseConstraint)
 
+const canvas = render.canvas
+const ctx = canvas.getContext('2d')
+
+Matter.Events.on(render, 'afterRender', () => {
+  if (currentTool === 'line' && startPoint) {
+    const endPoint = mouse.position
+    ctx.beginPath()
+    ctx.moveTo(startPoint.x, startPoint.y)
+    ctx.lineTo(endPoint.x, endPoint.y)
+    ctx.strokeStyle = '#34495e'
+    ctx.lineWidth = 5
+    ctx.stroke()
+  }
+})
+
 let startPoint = null
 
-render.canvas.addEventListener('mousedown', event => {
+canvas.addEventListener('mousedown', event => {
   if (mouseConstraint.body) return
 
   const position = { ...mouse.position }
