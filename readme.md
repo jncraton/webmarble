@@ -18,6 +18,10 @@ Select a tool from the palette and click on the canvas to place parts or drop ma
 - Fountain: Places a blue square that automatically spawns marbles every 0.5 seconds
 - Trash: Clears all dynamic objects and fountains from the sandbox
 
+## Saving
+
+The current layout is continuously saved in the URL fragment. You can bookmark the page or share the URL to save and load your creations.
+
 ## Simulation Rules
 
 - Maximum of 256 marbles at a time. The oldest marble is removed when the limit is reached.
