@@ -15,7 +15,13 @@ Select a tool from the palette and click on the canvas to place parts or drop ma
 
 - Marble: Drops a red marble
 - Line: Click and drag to draw a static line segment at any angle
-- Trash: Clears all dynamic objects from the sandbox
+- Fountain: Places a blue square that automatically spawns marbles every 0.5 seconds
+- Trash: Clears all dynamic objects and fountains from the sandbox
+
+## Simulation Rules
+
+- Maximum of 256 marbles at a time. The oldest marble is removed when the limit is reached.
+- Marbles that fall below the screen are automatically removed from the simulation.
 
 ## Development
 

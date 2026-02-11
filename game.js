@@ -26,6 +26,43 @@ const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 25, 
 })
 Composite.add(world, ground)
 
+const marbles = []
+const fountains = []
+const MAX_MARBLES = 256
+
+function createMarble(x, y) {
+  const marble = Bodies.circle(x, y, 10, {
+    restitution: 0.6,
+    friction: 0.001,
+    render: { fillStyle: '#e74c3c' },
+  })
+  
+  marbles.push(marble)
+  Composite.add(world, marble)
+  
+  if (marbles.length > MAX_MARBLES) {
+    const oldest = marbles.shift()
+    Composite.remove(world, oldest)
+  }
+}
+
+Matter.Events.on(engine, 'beforeUpdate', () => {
+  fountains.forEach(fountain => {
+    if (engine.timing.timestamp - fountain.lastSpawn > 500) {
+      createMarble(fountain.position.x, fountain.position.y)
+      fountain.lastSpawn = engine.timing.timestamp
+    }
+  })
+
+  for (let i = marbles.length - 1; i >= 0; i--) {
+    const marble = marbles[i]
+    if (marble.position.y > window.innerHeight + 50) {
+      Composite.remove(world, marble)
+      marbles.splice(i, 1)
+    }
+  }
+})
+
 let currentTool = 'marble'
 
 const tools = document.querySelectorAll('.tool')
@@ -48,6 +85,8 @@ document.getElementById('clear').addEventListener('click', () => {
       Composite.remove(world, body)
     }
   })
+  marbles.length = 0
+  fountains.length = 0
 })
 
 const mouse = Mouse.create(render.canvas)
@@ -86,14 +125,18 @@ canvas.addEventListener('mousedown', event => {
   const position = { ...mouse.position }
 
   if (currentTool === 'marble') {
-    const marble = Bodies.circle(position.x, position.y, 10, {
-      restitution: 0.6,
-      friction: 0.001,
-      render: { fillStyle: '#e74c3c' },
-    })
-    Composite.add(world, marble)
+    createMarble(position.x, position.y)
   } else if (currentTool === 'line') {
     startPoint = position
+  } else if (currentTool === 'fountain') {
+    const fountain = Bodies.rectangle(position.x, position.y, 30, 30, {
+      isStatic: true,
+      isSensor: true,
+      render: { fillStyle: '#3498db' },
+    })
+    fountain.lastSpawn = 0
+    fountains.push(fountain)
+    Composite.add(world, fountain)
   }
 })
 
