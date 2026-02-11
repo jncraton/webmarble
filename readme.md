@@ -1,13 +1,13 @@
 # Marble Run Sandbox
 
-[![Release](https://github.com/jncraton/jsmarble/actions/workflows/release.yml/badge.svg)](https://github.com/jncraton/jsmarble/actions/workflows/release.yml)
-[![Deploy](https://github.com/jncraton/jsmarble/actions/workflows/deploy.yml/badge.svg)](https://github.com/jncraton/jsmarble/actions/workflows/deploy.yml)
-[![Test](https://github.com/jncraton/jsmarble/actions/workflows/test.yml/badge.svg)](https://github.com/jncraton/jsmarble/actions/workflows/test.yml)
-[![Lint](https://github.com/jncraton/jsmarble/actions/workflows/lint.yml/badge.svg)](https://github.com/jncraton/jsmarble/actions/workflows/lint.yml)
+[![Release](https://github.com/jncraton/webmarble/actions/workflows/release.yml/badge.svg)](https://github.com/jncraton/webmarble/actions/workflows/release.yml)
+[![Deploy](https://github.com/jncraton/webmarble/actions/workflows/deploy.yml/badge.svg)](https://github.com/jncraton/webmarble/actions/workflows/deploy.yml)
+[![Test](https://github.com/jncraton/webmarble/actions/workflows/test.yml/badge.svg)](https://github.com/jncraton/webmarble/actions/workflows/test.yml)
+[![Lint](https://github.com/jncraton/webmarble/actions/workflows/lint.yml/badge.svg)](https://github.com/jncraton/webmarble/actions/workflows/lint.yml)
 
 A simple interactive web-based marble run game.
 
-[Demo](https://jncraton.github.io/jsmarble/)
+[Demo](https://jncraton.github.io/webmarble/)
 
 ## Usage
 
