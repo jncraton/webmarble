@@ -7,6 +7,7 @@ file_url = Path("index.html").resolve().as_uri()
 @pytest.fixture
 def root(page: Page):
     page.goto(file_url)
+    page.wait_for_function('window.game !== undefined')
     return page
 
 def test_page_title(root: Page):
